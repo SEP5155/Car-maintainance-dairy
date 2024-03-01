@@ -1,0 +1,55 @@
+from flask import Flask, request, redirect, render_template
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+
+app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///maintainance.db"
+db = SQLAlchemy(app)
+
+class MaintEntry(db.Model):
+    __tablename__ = 'maintentry'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    place = db.Column(db.String(100), nullable=False)
+    cost = db.Column(db.Integer, nullable=False)
+    mialadge = db.Column(db.Integer, nullable=False)
+    text = db.Column(db.Text)
+    date = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return '<MaintEntry %r>' % self.id
+    
+with app.app_context():
+    db.create_all()
+
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+@app.route("/add-entrie", methods=["POST", "GET"])
+def add_entrie():
+    if request.method == "POST":
+        title = request.form["title"]
+        place = request.form["place"]
+        cost = request.form["cost"]
+        mialadge = request.form["mialadge"]
+        text = request.form["text"]
+
+        entry = MaintEntry(title=title, place=place, cost=cost, mialadge=mialadge, text=text)
+        try:
+            db.session.add(entry)
+            db.session.commit()
+            return redirect("/all-entries")
+        except:
+            return "there was an error adding entry"
+    return render_template("add-entrie.html")
+
+@app.route("/all-entries")
+def all_entries():
+    entries = MaintEntry.query.order_by(MaintEntry.date.desc()).all()
+    return render_template("all-entries.html", entries=entries)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
+

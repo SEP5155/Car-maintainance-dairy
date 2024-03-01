@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Add new entrie
+{% endblock %}
+
+{% block body %}
+<h1>Add new entrie</h1>
+<form method="post">
+    <input type="text" name="title" id="title" placeholder="Enter title" required><br>
+    <input type="text" name="place" id="place" placeholder="Enter place" required><br>
+    <input type="number" name="cost" id="cost" placeholder="Enter cost" required><br>
+    <input type="number" name="mialadge" id="mialadge" placeholder="Enter mialadge" required><br>
+    <textarea name="text" id="text" placeholder="Enter comment"></textarea><br>
+    <input type="submit" value="Send" class="btn">
+</form>
+{% endblock %}

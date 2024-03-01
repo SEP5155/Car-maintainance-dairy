@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <title>{% block title %} {% endblock %}</title> 
+</head>
+<body>
+    <header>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/all-entries">All entries</a></li>
+            <li><a href="/add-entrie">Add entrie</a></li>
+        </ul>
+    </header>
+    <hr>
+    {% block body %}{% endblock %}
+    <hr>
+    <footer>
+        <span>This app will help you to keep your car in proper shape</span>
+    </footer>
+    
+</body>
+</html>

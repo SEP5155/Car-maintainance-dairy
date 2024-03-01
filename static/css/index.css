@@ -1,0 +1,61 @@
+body {
+    background-color: rgb(199, 180, 143)    ;
+}
+header ul {
+    display: flex;
+    justify-content: space-between;
+}
+.car_info {
+    display: flex;
+}
+a {
+    text-decoration: none;
+    color: black;
+}
+.car_info-wrapper {
+    display: flex;
+}
+.index_other-sections {
+    display: flex;
+}
+.index_other-sections > div {
+    padding-right: 15px;
+}
+
+.current_car-img img {
+    width: 65%;
+}
+.current_car {
+    width: 100%;
+}
+li {
+    list-style: none;
+    padding-bottom: 10px;
+}
+.page_title {
+    text-align: center;
+}
+.post {
+    display: flex;
+    flex-direction: column;
+}
+.post span {
+    margin-bottom: 15px;
+}
+
+.btn {
+   border: thin solid red; 
+   background-color: red;
+   color: white;
+   border-radius: 15px;
+   padding: 8px;
+   width: 5%;
+   margin-top: 5px;
+   margin-bottom: 5px;
+}
+.bottom_btns {
+    display: flex;
+}
+form input {
+    margin-bottom: 8px;
+}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    All entries
+{% endblock %}
+{% block body %}
+    <h1 class="page_title">All entries</h1>
+    {% if posts|length > 0 %}
+        {% for el in posts %}
+            <h3>{{ el["title"] }}</h3>
+            <span>{{ el["place"]  }}</span>
+            <span>{{ el["cost"] }}</span>
+            <span>{{ el["mialadge"]}}</span>
+            <span>{{ el["text"] }}</span>
+            <span>{{ el["date"] }}</span>
+            <a href="/post/{{ el['id'] }}" class="btn">Post details</a>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

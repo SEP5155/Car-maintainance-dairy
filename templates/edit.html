@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Edit entrie
+{% endblock %}
+
+{% block body %}
+<h1>Edit entrie</h1>
+<form method="post">
+    <input type="text" name="title" id="title" required value="{{ post['title'] }}"><br>
+    <input type="text" name="place" id="place" required value="{{ post['place'] }}"><br>
+    <input type="number" name="cost" id="cost" required value="{{ post['cost'] }}"><br>
+    <input type="number" name="mialadge" id="mialadge" required value="{{ post['mialadge'] }}"><br>
+    <textarea name="text" id="text">{{ post['text'] }}</textarea><br>
+    <input type="submit" value="Update" class="btn">
+</form>
+{% endblock %}

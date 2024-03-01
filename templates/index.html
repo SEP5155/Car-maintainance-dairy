@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}
+Car Maintainance Diary
+{% endblock %}
+
+{% block body %}
+    <div class="car_info">
+        <div class="car_info-wrapper">
+            <div class="current_car">
+                <span class="current_car-name">Your current car is</span>
+                <li class="current_car-list-item">Make: </li>
+                <li class="current_car-list-item">Model: </li>
+                <li class="current_car-list-item">Year: </li>
+                <li class="current_car-list-item">Engine: </li>
+                <li class="current_car-list-item">Mialadge: </li>
+                <li class="current_car-list-item">Next Oil change in: </li>
+            </div>
+            <div class="current_car-img">
+                <img src="/static/img/land_rover_range_rover_vogue_108581_1280x960.jpg" alt="Your car">
+            </div>
+        </div>
+    </div>
+    <div class="index_other-sections">
+        <div class="latest_entries">
+        <h2>Latest entries</h2>
+    </div>
+    <div class="scheduled_works">
+        <h2>Scheduled works</h2>
+    </div>
+    <div class="jbservations">
+        <h2>Observations</h2>
+    </div>
+    </div>
+    <div class="album">
+        <h2>Album</h2>
+    </div>
+    {% endblock %}

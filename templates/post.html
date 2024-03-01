@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Entry info
+{% endblock %}
+
+{% block body %} 
+    <div class="post">
+        <h3>{{ post["title"] }}</h3>
+        <span>{{ post["place"]  }}</span><br>
+        <span>{{ post["cost"] }}</span><br>
+        <span>{{ post["mialadge"]}}</span><br>
+        <span>{{ post["text"] }}</span><br>
+        <span>{{ post["date"] }}</span><br>
+        <div class="bottom_btns">
+            <a href="/post/{{ post['id'] }}/edit" class="btn">Edit</a>
+            <a href="/post/{{ post['id'] }}/delete" class="btn">Delete</a>
+        </div>
+        
+    </div>
+    
+{% endblock %}
