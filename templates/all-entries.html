@@ -5,15 +5,20 @@
 {% endblock %}
 {% block body %}
     <h1 class="page_title">All entries</h1>
-    {% if posts|length > 0 %}
-        {% for el in posts %}
-            <h3>{{ el["title"] }}</h3>
-            <span>{{ el["place"]  }}</span>
-            <span>{{ el["cost"] }}</span>
-            <span>{{ el["mialadge"]}}</span>
-            <span>{{ el["text"] }}</span>
-            <span>{{ el["date"] }}</span>
-            <a href="/post/{{ el['id'] }}" class="btn">Post details</a>
-        {% endfor %}
-    {% endif %}
+    <div class="posts">
+        {% if posts|length > 0 %}
+            {% for el in posts %}
+                <div class="post">
+                    <h3 class="post_title">{{ el["title"] }}</h3>
+                    <span class="post_line"></span>Place: {{ el["place"]  }}</span>
+                    <span class="post_line"></span>Cost: {{ el["cost"] }}</span>
+                    <span class="post_line"></span>Mialadge: {{ el["mialadge"]}}</span>
+                    <span class="post_line"></span>Comment: {{ el["text"] }}</span>
+                    <span class="post_line"></span>Date: {{ el["date"] }}</span>
+                    <a href="/post/{{ el['id'] }}" class="btn">Post details</a>
+                </div>
+                <hr>
+            {% endfor %}
+        {% endif %}
+    </div>
 {% endblock %}

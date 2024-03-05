@@ -1,6 +1,7 @@
 import sqlite3
-from flask import Flask, render_template, url_for, redirect, request, flash
+from flask import Flask, render_template, url_for, redirect, request, flash, get_flashed_messages
 from werkzeug.exceptions import abort
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 def get_db_connection():
@@ -24,6 +25,52 @@ app.config['SECRET_KEY'] = 'your secret key'
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/login", methods=["POST", "GET"])
+def login():
+    if request.method == "POST":
+        email = request.form["email"]
+        password = request.form["password"]
+        conn = get_db_connection()
+        user_cursor = conn.execute("SELECT * FROM users WHERE email = ?", (email,))
+        user = user_cursor.fetchone()
+        if user and check_password_hash(user[2], password):
+            flash("login successfull", "info")
+            return redirect(url_for("index"))
+    return render_template("login.html")
+
+@app.route("/register", methods=["POST", "GET"])
+def register():
+    messages = get_flashed_messages()
+    if request.method == "POST":
+        email = request.form["email"]
+        password = request.form["password"]
+        confirm_password = request.form["confirm_password"]
+        if not email or not password or not confirm_password:
+            flash("All fields are required", "error")
+            return redirect(url_for('register'))
+        elif password != confirm_password:
+            flash("Passwords do not match!", "error")
+            return redirect(url_for('register'))
+        else:
+            
+            password_hash = generate_password_hash(password)
+            conn = get_db_connection()
+            try:
+                conn.execute("INSERT INTO users (email, password_hash) VALUES (?, ?)",
+                (email, password_hash)
+                )
+                conn.commit()
+                flash("Account created successfully", "info")
+                return redirect(url_for('login'))
+            except Exception as e:
+                conn.rollback()
+                flash(f"error creating account: {e}", "error")
+                return redirect(url_for("register"))
+            finally:
+                conn.close()
+
+    return render_template("register.html", messages=messages)
 
 @app.route("/add-entrie", methods=["POST", "GET"])
 def add_entrie():

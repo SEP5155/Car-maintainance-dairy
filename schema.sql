@@ -7,3 +7,9 @@ CREATE TABLE IF NOT EXISTS maintentry (
     text TEXT,
     date DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS users (
+    user_id INTEGER PRIMARY KEY,
+    email TEXT NOT NULL,
+    password_hash TEXT NOT NULL
+);

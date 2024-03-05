@@ -7,18 +7,21 @@
     <title>{% block title %} {% endblock %}</title> 
 </head>
 <body>
-    <header>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/all-entries">All entries</a></li>
-            <li><a href="/add-entrie">Add entrie</a></li>
+    <header class="header">
+        <ul class="header_nav">
+            <li class="header_nav-item"><a href="/">Home</a></li>
+            <li class="header_nav-item"><a href="/all-entries">All entries</a></li>
+            <li class="header_nav-item"><a href="/add-entrie">Add entrie</a></li>
+            <li class="header_nav-item"><a href="/login">Sign in</a></li>
+            <li class="header_nav-item"><a href="/register">Register</a></li>
+            
         </ul>
     </header>
     <hr>
     {% block body %}{% endblock %}
     <hr>
-    <footer>
-        <span>This app will help you to keep your car in proper shape</span>
+    <footer class="footer">
+        <span class="footer_title">This app will help you to keep your car in proper shape</span>
     </footer>
     
 </body>

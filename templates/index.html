@@ -4,6 +4,16 @@ Car Maintainance Diary
 {% endblock %}
 
 {% block body %}
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flashes">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
     <div class="car_info">
         <div class="car_info-wrapper">
             <div class="current_car">

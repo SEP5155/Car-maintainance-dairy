@@ -1,0 +1,10 @@
+.btn {
+    border: thin solid red; 
+    background-color: red;
+    color: white;
+    border-radius: 15px;
+    padding: 8px;
+    width: 14%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+ }
