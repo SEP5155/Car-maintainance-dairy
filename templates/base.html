@@ -14,6 +14,15 @@
             <li class="header_nav-item"><a href="/add-entrie">Add entrie</a></li>
             <li class="header_nav-item"><a href="/login">Sign in</a></li>
             <li class="header_nav-item"><a href="/register">Register</a></li>
+            <div class="user_state">
+                {% if g.current_user %}
+                    <p>Welcome, {{ g.current_user["email"]}}</p>
+                    <p>User id is: {{g.current_user[0]}}</p>
+                    <a href="/logout">Logout</a>
+                {% else %}
+                    <p>YOU ARE NOT LOGGED IN</p>
+                {% endif %}
+            </div>
             
         </ul>
     </header>

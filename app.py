@@ -1,7 +1,10 @@
 import sqlite3
 from flask import Flask, render_template, url_for, redirect, request, flash, get_flashed_messages
+from flask import session, g
+from datetime import timedelta
 from werkzeug.exceptions import abort
 from werkzeug.security import generate_password_hash, check_password_hash
+
 
 
 def get_db_connection():
@@ -18,12 +21,31 @@ def get_post(post_id):
         abort(404)
     return post
 
+def get_user_by_id(email):
+    conn = get_db_connection()
+    user = conn.execute("SELECT * FROM users WHERE email = ?", (email,)).fetchone()
+    conn.close
+    return user
+
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your secret key'
+app.config['SECRET_KEY'] = 'your_secret_key'
+app.config["PERMANENT_SESSION_LIFITIME"] = timedelta(minutes=30)
+
+@app.before_request
+def before_request():
+    if "username" in session:
+        g.current_user = get_user_by_id(session["username"])
+    else:
+        g.current_user = None
 
 
 @app.route("/")
 def index():
+    if g.current_user:
+        conn = get_db_connection()
+        car = conn.execute("SELECT * FROM cars WHERE user_id =?", (g.current_user[0],)).fetchone()
+        conn.close()
+        return render_template("index.html", car=car)
     return render_template("index.html")
 
 @app.route("/login", methods=["POST", "GET"])
@@ -35,9 +57,18 @@ def login():
         user_cursor = conn.execute("SELECT * FROM users WHERE email = ?", (email,))
         user = user_cursor.fetchone()
         if user and check_password_hash(user[2], password):
+            session["username"] = request.form["email"]
             flash("login successfull", "info")
             return redirect(url_for("index"))
+        else:
+            flash("Username or password is incorrect", "info")
+            return redirect(url_for("login"))
     return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    session.pop("username", None)
+    return redirect(url_for("index"))
 
 @app.route("/register", methods=["POST", "GET"])
 def register():
