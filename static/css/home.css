@@ -1,0 +1,26 @@
+.car_info {
+    margin: 15px;
+}
+.car_info-wrapper {
+    display: flex;
+}
+.current_car {
+    display: flex;
+    flex-direction: column;
+    width: 55%;
+}
+.current_car-img {
+    width: 70%
+}
+.current_car-list-item {
+    margin-top: 15px;
+}
+.index_other-sections {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px;
+}
+.album {
+    text-align: center;
+    margin: 15px;
+}

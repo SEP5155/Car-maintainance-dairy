@@ -21,6 +21,15 @@ def get_post(post_id):
         abort(404)
     return post
 
+def if_user_has_car(user_id):
+    conn = get_db_connection()
+    has_car = conn.execute("SELECT * FROM cars WHERE user_id = ?", (user_id,)).fetchone()
+    if has_car:
+        return True
+    else:
+        return False
+
+
 def get_user_by_id(email):
     conn = get_db_connection()
     user = conn.execute("SELECT * FROM users WHERE email = ?", (email,)).fetchone()
@@ -50,7 +59,9 @@ def index():
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
-    if request.method == "POST":
+    if g.current_user:
+        return redirect(url_for("index"))
+    elif request.method == "POST":
         email = request.form["email"]
         password = request.form["password"]
         conn = get_db_connection()
@@ -73,7 +84,9 @@ def logout():
 @app.route("/register", methods=["POST", "GET"])
 def register():
     messages = get_flashed_messages()
-    if request.method == "POST":
+    if g.current_user:
+        return redirect(url_for("index"))
+    elif request.method == "POST":
         email = request.form["email"]
         password = request.form["password"]
         confirm_password = request.form["confirm_password"]
@@ -165,6 +178,27 @@ def delete_post(post_id):
     conn.close()
     flash(f"{post["title"]} was successfully deleted")
     return redirect(url_for("all_entries"))
+
+@app.route("/add-vehicle", methods=["POST", "GET"])
+def add_vehicle():
+    if request.method == "POST":
+        make = request.form["make"]
+        model = request.form["model"]
+        year = request.form["year"]
+        mialadge = request.form["mialadge"]
+        engine = request.form["engine"]
+        current = 0
+        if if_user_has_car(g.current_user[0]):
+            current = 1
+        user_id = request.form["user_id"]
+        conn = get_db_connection()
+        conn.execute("INSERT INTO cars (make, model, year, mialadge, engine, current, user_id) VALUES (?, ?, ?, ?, ?, ?)",
+                     (make, model, year, mialadge, engine, current, user_id)
+                     )
+        conn.commit()
+        conn.close()
+        return redirect(url_for("index"))
+    return render_template("add-vehicle.html")
 
 
 

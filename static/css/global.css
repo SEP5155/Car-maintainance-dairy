@@ -15,8 +15,26 @@ img {
 
 a {
     text-decoration: none;
+    cursor: pointer;
 }
 
 ul {
     list-style: none;
+}
+form {
+    text-align: center;
+}
+form input,
+form textarea {
+    width: 50%;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    height: 35px;
+    padding-left: 8px;
+}
+input[type='submit'] {
+    cursor: pointer;
+}
+h1 {
+    text-align: center;
 }

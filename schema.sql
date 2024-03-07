@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS cars (
     mialadge INTEGER NOT NULL,
     engine VARCHAR NOT NULL,
     user_id INTEGER,
+    current INTEGER,
     FOREIGN KEY (user_id) REFERENCES users (user_id) 
 
 )

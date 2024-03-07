@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Add new vehicle
+{% endblock %}
+
+{% block body %}
+<h1>Add new vehicle</h1>
+<form method="post">
+    <input type="text" name="make" id="make" placeholder="Enter make" required><br>
+    <input type="text" name="model" id="model" placeholder="Enter model" required><br>
+    <input type="number" name="year" id="year" placeholder="Enter year" required><br>
+    <input type="number" name="mialadge" id="mialadge" placeholder="Enter mialadge" required><br>
+    <input type="text" name="engine" id="engine" placeholder="Enter engine" required><br>
+    <input type="number" name="user_id" id="user_id" required hidden value="{{ g.current_user[0] }}"><br>
+    <input type="submit" value="Add" class="btn">
+</form>
+{% endblock %}

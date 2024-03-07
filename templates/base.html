@@ -16,7 +16,8 @@
             <li class="header_nav-item"><a href="/register">Register</a></li>
             <div class="user_state">
                 {% if g.current_user %}
-                    <p>Welcome, {{ g.current_user["email"]}}</p>
+                    <p>Welcome, </p><br>
+                    <p>{{ g.current_user["email"]}}</p><br>
                     <p>User id is: {{g.current_user[0]}}</p>
                     <a href="/logout">Logout</a>
                 {% else %}
