@@ -124,12 +124,13 @@ def add_entrie():
         cost = request.form["cost"]
         mialadge = request.form["mialadge"]
         text = request.form["text"]
+        user_id = request.form["user_id"]
         if not title:
             flash('Title is required')
         else:
             conn = get_db_connection()
-            conn.execute("INSERT INTO maintentry (title, place, cost, mialadge, text) VALUES (?, ?, ?, ?, ?)",
-            (title, place, cost, mialadge, text)
+            conn.execute("INSERT INTO maintentry (title, place, cost, mialadge, text, user_id) VALUES (?, ?, ?, ?, ?, ?)",
+            (title, place, cost, mialadge, text, user_id)
             )
             conn.commit()
             conn.close()
@@ -138,10 +139,18 @@ def add_entrie():
 
 @app.route("/all-entries")
 def all_entries():
-    conn = get_db_connection()
-    posts = conn.execute("SELECT * FROM maintentry").fetchall()
-    conn.close()
-    return render_template("all-entries.html", posts=posts)
+    if g.current_user:
+        conn = get_db_connection()
+        # posts = conn.execute("SELECT * FROM maintentry").fetchall()
+        posts = conn.execute("SELECT * FROM maintentry WHERE user_id = ?", (g.current_user[0],)).fetchall()
+        conn.close()
+        return render_template("all-entries.html", posts=posts)
+    else:
+        conn = get_db_connection()
+        posts = conn.execute("SELECT * FROM maintentry WHERE user_id IS NULL").fetchall()
+        # posts = conn.execute("SELECT * FROM maintentry WHERE user_id = ?", (g.current_user[0],)).fetchall()
+        conn.close()
+        return render_template("all-entries.html", posts=posts)
 
 @app.route("/post/<int:post_id>")
 def show_post(post_id):

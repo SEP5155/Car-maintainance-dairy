@@ -5,7 +5,9 @@ CREATE TABLE IF NOT EXISTS maintentry (
     cost INTEGER NOT NULL,
     mialadge INTEGER NOT NULL,
     text TEXT,
-    date DATETIME DEFAULT CURRENT_TIMESTAMP
+    user_id INTEGER,
+    date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
 
 CREATE TABLE IF NOT EXISTS users (

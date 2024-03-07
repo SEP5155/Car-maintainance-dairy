@@ -15,10 +15,17 @@
                     <span class="post_line"></span>Mialadge: {{ el["mialadge"]}}</span>
                     <span class="post_line"></span>Comment: {{ el["text"] }}</span>
                     <span class="post_line"></span>Date: {{ el["date"] }}</span>
+                    {% if g.current_user %}
+                        <span>Owner: {{ g.current_user["email"]}}</span>
+                    {% else %}
+                    <span>No Owner</span>
+                    {% endif %}
                     <a href="/post/{{ el['id'] }}" class="btn">Post details</a>
                 </div>
                 <hr>
             {% endfor %}
+        {% else %}
+        <span>You have no entries yet</span>
         {% endif %}
     </div>
 {% endblock %}
