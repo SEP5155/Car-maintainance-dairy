@@ -23,7 +23,7 @@ def get_post(post_id):
 
 def if_user_has_car(user_id):
     conn = get_db_connection()
-    has_car = conn.execute("SELECT * FROM cars WHERE user_id = ?", (user_id,)).fetchone()
+    has_car = conn.execute("SELECT * FROM cars WHERE user_id = ? AND current = ?", (user_id, 1)).fetchone()
     if has_car:
         return True
     else:
