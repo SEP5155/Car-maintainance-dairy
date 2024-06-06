@@ -185,7 +185,7 @@ def delete_post(post_id):
     conn.execute("DELETE FROM maintentry WHERE id = ?", (post_id,))
     conn.commit()
     conn.close()
-    flash(f"{post["title"]} was successfully deleted")
+    flash(f'{post["title"]} was successfully deleted')
     return redirect(url_for("all_entries"))
 
 @app.route("/add-vehicle", methods=["POST", "GET"])
