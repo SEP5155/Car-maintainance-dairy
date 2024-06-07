@@ -19,7 +19,7 @@ Car Maintainance Diary
         <div class="car_info-wrapper">
             <div class="current_car">
                 {% if car %}
-                <span class="current_car-name">Your current car is</span>
+                <span class="current_car-name">Current car info:</span>
                 <!-- <p>{{ el }}</p> -->
                 <li class="current_car-list-item">Make: {{ car.make }}</li>
                 <li class="current_car-list-item">Model: {{ car.model }}</li>
@@ -27,7 +27,7 @@ Car Maintainance Diary
                 <li class="current_car-list-item">Engine: {{ car.engine }}</li>
                 <li class="current_car-list-item">Mialadge: {{ car.mialadge }} km</li>
                 <li class="current_car-list-item">Next Oil change in: </li>
-                <a href="/add-vehicle" class="btn">Add vehicle</a>
+                <a href="/add-vehicle" class="btn add_car_home">Add vehicle</a>
                 <form>
                     <label for="user_cars">Choose current car</label>
                     <select id="user_cars" name="user_cars">
