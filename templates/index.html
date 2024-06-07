@@ -15,32 +15,33 @@ Car Maintainance Diary
         {% endif %}
     {% endwith %}
     <h1 class="page_title">Home</h1>
-    <div class="car_info">
-        <div class="car_info-wrapper">
-            <div class="current_car">
-                {% if car %}
-                <span class="current_car-name">Current car info:</span>
-                <!-- <p>{{ el }}</p> -->
-                <li class="current_car-list-item">Make: {{ car.make }}</li>
-                <li class="current_car-list-item">Model: {{ car.model }}</li>
-                <li class="current_car-list-item">Year: {{ car.year }}</li>
-                <li class="current_car-list-item">Engine: {{ car.engine }}</li>
-                <li class="current_car-list-item">Mialadge: {{ car.mialadge }} km</li>
-                <li class="current_car-list-item">Next Oil change in: </li>
-                <a href="/add-vehicle" class="btn add_car_home">Add vehicle</a>
-                <form>
-                    <label for="user_cars">Choose current car</label>
-                    <select id="user_cars" name="user_cars">
-                        <option value="{{ car.make }} {{ car.model }}">{{ car.make }} {{ car.model }}</option>
-                    </select>
-                </form>
-                {% endif %}
-            </div>
-            <div class="current_car-img">
-                <img src="/static/img/land_rover_range_rover_vogue_108581_1280x960.jpg" alt="Your car">
+    {% if g.current_user %}
+        <div class="car_info">
+            <div class="car_info-wrapper">
+                <div class="current_car">
+                    {% if car %}
+                    <span class="current_car-name">Current car info:</span>
+                    <!-- <p>{{ el }}</p> -->
+                    <li class="current_car-list-item">Make: {{ car.make }}</li>
+                    <li class="current_car-list-item">Model: {{ car.model }}</li>
+                    <li class="current_car-list-item">Year: {{ car.year }}</li>
+                    <li class="current_car-list-item">Engine: {{ car.engine }}</li>
+                    <li class="current_car-list-item">Mialadge: {{ car.mialadge }} km</li>
+                    <li class="current_car-list-item">Next Oil change in: </li>
+                    <a href="/add-vehicle" class="btn add_car_home">Add vehicle</a>
+                    <form>
+                        <label for="user_cars">Choose current car</label>
+                        <select id="user_cars" name="user_cars">
+                            <option value="{{ car.make }} {{ car.model }}">{{ car.make }} {{ car.model }}</option>
+                        </select>
+                    </form>
+                    {% endif %}
+                </div>
+                <div class="current_car-img">
+                    <img src="/static/img/land_rover_range_rover_vogue_108581_1280x960.jpg" alt="Your car">
+                </div>
             </div>
         </div>
-    </div>
     <div class="index_other-sections">
         <div class="latest_entries">
         <h2>Latest entries</h2>
@@ -55,4 +56,54 @@ Car Maintainance Diary
     <div class="album">
         <h2>Album</h2>
     </div>
+    <div class="other_users_posts">
+        <h3 class="not_logged_in_title_home">See vehicles our clients posted</h3>
+        <div class="random_cars_slider">
+            <div class="random_car-img active">
+                <img src="/static/img/land_rover_range_rover_vogue_108581_1280x960.jpg" alt="Random car">
+            </div>
+            <div class="random_car-img">
+                <img src="/static/img/audi-s8-d3.jpg" alt="Random car">
+            </div>
+            <div class="random_car-img">
+                <img src="/static/img/e60_m5.jpg" alt="Random car">
+            </div>
+            <div class="random_car-img">
+                <img src="/static/img/bmw-f10-m5.jpg" alt="Random car">
+            </div>
+            <div class="random_car-img">
+                <img src="/static/img/l322.jpg" alt="Random car">
+            </div>
+            <div class="random_car-img">
+                <img src="/static/img/rivian_t1s.jpg" alt="Random car">
+            </div>
+            <button id="prev-button" class="prev-button">&#10094;</button>
+            <button id="next-button" class="next-button">&#10095;</button>
+        </div>
+    </div>
+    {% else %}
+        <h3 class="not_logged_in_title_home">See vehicles our clients posted while you are not logged in</h3>
+        <div class="random_cars_slider">
+            <div class="random_car-img active">
+                <img src="/static/img/land_rover_range_rover_vogue_108581_1280x960.jpg" alt="Random car">
+            </div>
+            <div class="random_car-img">
+                <img src="/static/img/audi-s8-d3.jpg" alt="Random car">
+            </div>
+            <div class="random_car-img">
+                <img src="/static/img/e60_m5.jpg" alt="Random car">
+            </div>
+            <div class="random_car-img">
+                <img src="/static/img/bmw-f10-m5.jpg" alt="Random car">
+            </div>
+            <div class="random_car-img">
+                <img src="/static/img/l322.jpg" alt="Random car">
+            </div>
+            <div class="random_car-img">
+                <img src="/static/img/rivian_t1s.jpg" alt="Random car">
+            </div>
+            <button id="prev-button" class="prev-button">&#10094;</button>
+            <button id="next-button" class="next-button">&#10095;</button>
+        </div>
+    {% endif %}
     {% endblock %}

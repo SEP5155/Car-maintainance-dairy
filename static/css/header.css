@@ -11,8 +11,8 @@
     align-items: center;
 }
 .header_nav-item {
-    border: thin solid black;
-    color: black;
+    border: thin solid white;
+    color: white;
     border-radius: 15px;
     padding: 10px;
     cursor: pointer;
@@ -45,4 +45,5 @@
     align-items: center;
     margin-left: 25px;
     flex-direction: column;
+    color: white;
 }
