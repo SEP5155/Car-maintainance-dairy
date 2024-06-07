@@ -12,6 +12,25 @@ document.addEventListener('DOMContentLoaded', function() {
             customAlert.classList.remove('show');
         }, 5000);
     }
+
+    const extraInput = document.querySelectorAll('.register_extra_info');
+    const extraMenuCheckbox = document.querySelector('#tell_more');
+
+    extraMenuCheckbox.addEventListener('change', function() {
+        if (extraMenuCheckbox.checked) {
+            extraInput.forEach(function(element) {
+                element.style.display = 'inline-block';
+            });
+            
+        } else {
+            extraInput.forEach(function(element) {
+                element.style.display = 'none';
+            });
+        }
+    });
+    
     customAlert();
-})
+  
+
+});
 
