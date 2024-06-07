@@ -12,8 +12,10 @@
             <a href="/" class="header_nav-item">Home</a>
             <a href="/all-entries" class="header_nav-item">All entries</a>
             <a href="/add-entrie" class="header_nav-item">Add entrie</a>
-            <a href="/login" class="header_nav-item">Sign in</a>
-            <a href="/register" class="header_nav-item">Register</a>
+            {% if not g.current_user %}
+                <a href="/login" class="header_nav-item">Sign in</a>
+                <a href="/register" class="header_nav-item">Register</a>
+            {% endif %}
         </ul>
         <div class="user_state">
             {% if g.current_user %}
