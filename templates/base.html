@@ -9,11 +9,11 @@
 <body>
     <header class="header">
         <ul class="header_nav">
-            <li class="header_nav-item"><a href="/">Home</a></li>
-            <li class="header_nav-item"><a href="/all-entries">All entries</a></li>
-            <li class="header_nav-item"><a href="/add-entrie">Add entrie</a></li>
-            <li class="header_nav-item"><a href="/login">Sign in</a></li>
-            <li class="header_nav-item"><a href="/register">Register</a></li>
+            <a href="/" class="header_nav-item">Home</a>
+            <a href="/all-entries" class="header_nav-item">All entries</a>
+            <a href="/add-entrie" class="header_nav-item">Add entrie</a>
+            <a href="/login" class="header_nav-item">Sign in</a>
+            <a href="/register" class="header_nav-item">Register</a>
             <div class="user_state">
                 {% if g.current_user %}
                     <p>Welcome, </p><br>
