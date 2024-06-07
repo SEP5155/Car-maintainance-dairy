@@ -22,7 +22,7 @@
                 <p>Welcome, </p>
                 <p>{{ g.current_user["email"]}}</p>
                 <p>User id is: {{g.current_user[0]}}</p>
-                <a href="/logout">Logout</a>
+                <a href="/logout" class="logout_btn">Logout</a>
             {% else %}
                 <p>YOU ARE NOT LOGGED IN</p>
             {% endif %}

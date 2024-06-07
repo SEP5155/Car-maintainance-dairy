@@ -47,3 +47,6 @@
     flex-direction: column;
     color: white;
 }
+.logout_btn {
+    color: rgb(182, 166, 166);
+}

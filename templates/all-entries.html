@@ -4,28 +4,36 @@
     All entries
 {% endblock %}
 {% block body %}
-    <h1 class="page_title">All entries</h1>
-    <div class="posts">
-        {% if posts|length > 0 %}
-            {% for el in posts %}
-                <div class="post">
-                    <h3 class="post_title">{{ el["title"] }}</h3>
-                    <span class="post_line"></span>Place: {{ el["place"]  }}</span>
-                    <span class="post_line"></span>Cost: {{ el["cost"] }}</span>
-                    <span class="post_line"></span>Mialadge: {{ el["mialadge"]}}</span>
-                    <span class="post_line"></span>Comment: {{ el["text"] }}</span>
-                    <span class="post_line"></span>Date: {{ el["date"] }}</span>
-                    {% if g.current_user %}
-                        <span>Owner: {{ g.current_user["email"]}}</span>
-                    {% else %}
-                    <span>No Owner</span>
-                    {% endif %}
-                    <a href="/post/{{ el['id'] }}" class="btn">Post details</a>
-                </div>
-                <hr>
-            {% endfor %}
-        {% else %}
-        <span>You have no entries yet</span>
-        {% endif %}
+    <div class="all-entries_container">
+        <h1 class="page_title">All entries</h1>
+        <div class="posts">
+            {% if posts|length > 0 %}
+                {% for el in posts %}
+                    <div class="post">
+                        <div class="post_right_table">
+                            <h3 class="post_title">{{ el["title"] }}</h3>
+                        </div>
+                        <div class="post_left_table">
+                            <span class="post_line"></span>Place: {{ el["place"]  }}</span>
+                            <span class="post_line"></span>Cost: {{ el["cost"] }}</span>
+                            <span class="post_line"></span>Mileage: {{ el["mialadge"]}}</span>
+                            <span class="post_line"></span>Comment: {{ el["text"] }}</span>
+                            <span class="post_line"></span>Date: {{ el["date"] }}</span>
+                            {% if g.current_user %}
+                                <span>Owner: {{ g.current_user["email"]}}</span>
+                            {% else %}
+                            <span>No Owner</span>
+                            {% endif %}
+                        </div>
+                        
+                        
+                        <a href="/post/{{ el['id'] }}" class="btn post_details_btn">Details</a>
+                    </div>
+                    <hr>
+                {% endfor %}
+            {% else %}
+            <span>You have no entries yet</span>
+            {% endif %}
+        </div>
     </div>
 {% endblock %}

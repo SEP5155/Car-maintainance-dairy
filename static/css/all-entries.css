@@ -1,3 +1,6 @@
+.all-entries_container {
+    background-color: #e0f7fa;
+}
 .page_title {
     text-align: center;
 }
@@ -5,16 +8,34 @@
 .posts {
     display: flex;
     flex-direction: column;
+    padding: 0 60px;
 }
 .post {
     margin-top: 15px;
     padding: 15px;
     display: flex;
-    flex-direction: column; 
+    flex-direction: row; 
+}
+.post_right_table {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.post_left_table {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
 }
 .post_title {
     text-align: center;
 }
 .post_line {
     margin-top: 5px;
+}
+.post_details_btn {
+    display: flex;
+    align-self: end;
+    height:fit-content;
+    text-align: center;
 }
