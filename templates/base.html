@@ -14,18 +14,17 @@
             <a href="/add-entrie" class="header_nav-item">Add entrie</a>
             <a href="/login" class="header_nav-item">Sign in</a>
             <a href="/register" class="header_nav-item">Register</a>
-            <div class="user_state">
-                {% if g.current_user %}
-                    <p>Welcome, </p><br>
-                    <p>{{ g.current_user["email"]}}</p><br>
-                    <p>User id is: {{g.current_user[0]}}</p>
-                    <a href="/logout">Logout</a>
-                {% else %}
-                    <p>YOU ARE NOT LOGGED IN</p>
-                {% endif %}
-            </div>
-            
         </ul>
+        <div class="user_state">
+            {% if g.current_user %}
+                <p>Welcome, </p>
+                <p>{{ g.current_user["email"]}}</p>
+                <p>User id is: {{g.current_user[0]}}</p>
+                <a href="/logout">Logout</a>
+            {% else %}
+                <p>YOU ARE NOT LOGGED IN</p>
+            {% endif %}
+        </div>
     </header>
     <hr>
     <div class="custom_alert"></div>

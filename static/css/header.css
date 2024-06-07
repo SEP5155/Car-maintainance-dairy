@@ -8,18 +8,19 @@
     display: flex;
     /* width: 70%; */
     justify-content: space-around;
+    align-items: center;
 }
 .header_nav-item {
     border: thin solid black;
+    color: black;
     border-radius: 15px;
     padding: 10px;
     cursor: pointer;
     margin-right: 8px;
+    max-height: 40px;
 
 }
-.header_nav-item a {
-    color: black;
-}
+
 .custom_alert {
     display: none;
     position: fixed;
@@ -37,4 +38,11 @@
 }
 .custom_alert.show {
     display: block;
+}
+.user_state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 25px;
+    flex-direction: column;
 }
