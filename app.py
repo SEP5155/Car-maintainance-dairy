@@ -40,7 +40,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
 app.config["PERMANENT_SESSION_LIFITIME"] = timedelta(minutes=30)
 
-logging.basicConfig(filename='/var/www/html/car_app/myapp.log', level=logging.DEBUG)
+# logging.basicConfig(filename='/var/www/html/car_app/myapp.log', level=logging.DEBUG)
 
 @app.before_request
 def before_request():

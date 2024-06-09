@@ -60,13 +60,82 @@ document.addEventListener('DOMContentLoaded', function() {
         images[currentIndex].classList.add('active');
         console.log('showing slide number' + (currentIndex + 1));
     }
-    nextBtn.addEventListener('click', showNext);
-    prevBtn.addEventListener('click', showPrev);
+    if(nextBtn) {
+        nextBtn.addEventListener('click', showNext);
+    }
+    if(prevBtn) {
+        prevBtn.addEventListener('click', showPrev);
+    }
+    
 
     
     
     customAlert();
-  
+
+    //FORM FUCTIONS TO STORE DATA IN LOCAL STORAGE
+    const form = document.querySelector('.form');
+    const entrieTitle = document.querySelector('#title');
+    const entriePlace = document.querySelector('#place');
+    const entrieCost = document.querySelector('#cost');
+    const entrieMialadge = document.querySelector('#mialadge');
+    const entrieText = document.querySelector('#text');
+    const userIdInput = document.querySelector('#user_id');
+    
+    function storeFormData() {
+        const formData =  {
+            title: entrieTitle.value,
+            place: entriePlace.value,
+            cost: entrieCost.value,
+            mialadge: entrieMialadge.value,
+            text: entrieText.value
+        };
+        localStorage.setItem('formData', JSON.stringify(formData));
+        console.log('saved data from form to local storage');
+        console.log('saved data: ' + localStorage.getItem('formData'));
+
+    }
+
+    function loadFormData() {
+        if(form) {
+            const storedFormData = localStorage.getItem('formData');
+            if(storedFormData) {
+                const formData = JSON.parse(storedFormData);
+                entrieTitle.value = formData.title;
+                entriePlace.value = formData.place;
+                entrieCost.value = formData.cost;
+                entrieMialadge.value = formData.mialadge;
+                entrieText.value = formData.text;
+                console.log('form data is loaded')
+            }
+        }
+        
+    }
+    loadFormData();
+
+    if(form) {
+        entrieTitle.addEventListener('input', storeFormData);
+        entriePlace.addEventListener('input', storeFormData);
+        entrieCost.addEventListener('input', storeFormData);
+        entrieMialadge.addEventListener('input', storeFormData);
+        entrieText.addEventListener('input', storeFormData);
+    }
+
+    function clearFormData() {
+        localStorage.removeItem('formData');
+    }
+
+    if(form) {
+        form.addEventListener('submit', function(event) {
+            // event.preventDefault();
+            clearFormData();
+            alert('form submitted and Local Storage is cleared');
+            // userIdInput.required = false;
+            // form.reset();
+            // userIdInput.required = true;
+        });
+    }
+    
+    
 
 });
 
