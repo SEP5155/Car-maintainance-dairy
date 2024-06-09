@@ -5,3 +5,7 @@ __pycache__/
 *.pyd
 venv/
 .env
+# VS Code
+.vscode/
+# Logs
+*.log
