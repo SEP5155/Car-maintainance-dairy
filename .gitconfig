@@ -1,0 +1,5 @@
+[user]
+	name = SEP5155
+	email = serg.papusha@gmail.com
+[safe]
+	directory = /var/www/html/car_app

@@ -4,7 +4,7 @@ from flask import session, g
 from datetime import timedelta
 from werkzeug.exceptions import abort
 from werkzeug.security import generate_password_hash, check_password_hash
-
+import logging
 
 
 def get_db_connection():
@@ -39,6 +39,8 @@ def get_user_by_id(email):
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
 app.config["PERMANENT_SESSION_LIFITIME"] = timedelta(minutes=30)
+
+logging.basicConfig(filename='/var/www/html/car_app/myapp.log', level=logging.DEBUG)
 
 @app.before_request
 def before_request():
@@ -212,5 +214,5 @@ def add_vehicle():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
 
