@@ -7,6 +7,20 @@
 :root {
     scroll-behavior: smooth;
 }
+body {
+    background-color: #859799;
+}
+header {
+    position: fixed;
+    z-index: 1000;
+    width: 100%;
+    background-color: #000000a3;
+}
+.main {
+    margin-top: 15%;
+    margin-bottom: 25px;
+    padding: 0 15px;
+}
 
 img {
     display: block;
@@ -37,4 +51,15 @@ input[type='submit'] {
 }
 h1 {
     text-align: center;
+}
+.page_title {
+    margin-bottom: 23px;
+}
+form input {
+    max-width: 450px;
+    border: 2px solid black;
+}
+form textarea {
+    max-width: 450px;
+    border: 2px solid black;
 }

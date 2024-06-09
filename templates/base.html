@@ -9,30 +9,35 @@
 <body>
     <header class="header">
         <ul class="header_nav">
-            <li class="header_nav-item"><a href="/">Home</a></li>
-            <li class="header_nav-item"><a href="/all-entries">All entries</a></li>
-            <li class="header_nav-item"><a href="/add-entrie">Add entrie</a></li>
-            <li class="header_nav-item"><a href="/login">Sign in</a></li>
-            <li class="header_nav-item"><a href="/register">Register</a></li>
-            <div class="user_state">
-                {% if g.current_user %}
-                    <p>Welcome, </p><br>
-                    <p>{{ g.current_user["email"]}}</p><br>
-                    <p>User id is: {{g.current_user[0]}}</p>
-                    <a href="/logout">Logout</a>
-                {% else %}
-                    <p>YOU ARE NOT LOGGED IN</p>
-                {% endif %}
-            </div>
-            
+            <a href="/" class="header_nav-item">Home</a>
+            <a href="/all-entries" class="header_nav-item">All entries</a>
+            <a href="/add-entrie" class="header_nav-item">Add entrie</a>
+            {% if not g.current_user %}
+                <a href="/login" class="header_nav-item">Sign in</a>
+                <a href="/register" class="header_nav-item">Register</a>
+            {% endif %}
         </ul>
+        <div class="user_state">
+            {% if g.current_user %}
+                <p>Welcome, </p>
+                <p>{{ g.current_user["email"]}}</p>
+                <p>User id is: {{g.current_user[0]}}</p>
+                <a href="/logout" class="logout_btn">Logout</a>
+            {% else %}
+                <p>YOU ARE NOT LOGGED IN</p>
+            {% endif %}
+        </div>
     </header>
     <hr>
-    {% block body %}{% endblock %}
-    <hr>
+    <div class="main">
+        <div class="custom_alert"></div>
+        {% block body %}{% endblock %}
+        <hr>
+    </div>
+    
     <footer class="footer">
         <span class="footer_title">This app will help you to keep your car in proper shape</span>
     </footer>
-    
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 </body>
 </html>

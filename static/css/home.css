@@ -4,16 +4,30 @@
 .car_info-wrapper {
     display: flex;
 }
+.current_car-name {
+    padding-right: 10px;
+}
 .current_car {
     display: flex;
     flex-direction: column;
-    width: 55%;
+    width: fit-content;
+    margin-right: 20px;
+    padding: 8px;
+    background: hsl(192.08deg 23.26% 72.81%);
+    border: thin solid black;
 }
 .current_car-img {
     width: 70%
 }
 .current_car-list-item {
     margin-top: 15px;
+    padding: 0 15px;
+    list-style: none;
+}
+.add_car_home {
+    padding: 10px;
+    margin: 15px 0;
+    align-self: center;
 }
 .index_other-sections {
     display: flex;
@@ -23,4 +37,40 @@
 .album {
     text-align: center;
     margin: 15px;
+}
+.random_cars_slider {
+    margin: 20px 0;
+    position: relative;
+}
+.random_car-img {
+    display: none;
+}
+.random_car-img img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+.random_car-img.active {
+    display: block;
+}
+.not_logged_in_title_home {
+    text-align: center;
+}
+.prev-button, .next-button {
+    position: absolute;
+    top: 50%;
+    z-index: 1000;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 24px;
+}
+.next-button {
+    right: 20px;
+}
+.prev-button {
+    left: 20px;
 }

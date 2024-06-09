@@ -16,11 +16,28 @@
         {% endif %}
     {% endwith %}
 
-<h1>Register an account</h1>
+<h1 class="page_title">Register an account</h1>
+<style>
+    .register_extra_info {
+        display: none;
+    }
+    .reg_checkbox {
+        display: inline-block;
+    }
+</style>
 <form method="post">
     <input type="email" name="email" id="email" placeholder="Enter username" required><br>
     <input type="password" name="password" id="password" placeholder="Enter password" required><br>
     <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm password" required><br>
+    <label class="reg_checkbox">
+        <input type="checkbox" id="tell_more">
+        Do you want to tell us more?
+    </label><br>
+    
+    <input type="text" id="car" name="car" class="register_extra_info" placeholder="What is your car"><br>
+    <input type="text" id="cars_qnt" class="register_extra_info" name="cars_qnt" placeholder="How many cars?"><br>
+    <input type="text" id="oil" class="register_extra_info" name="oil" placeholder="What is oil you use"><br>
+
     <button type="submit" class="login_btn btn">Submit</button>
 </form>
 {% endblock %}
