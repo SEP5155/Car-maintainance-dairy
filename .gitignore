@@ -7,3 +7,5 @@ venv/
 .env
 # VS Code
 .vscode/
+# Logs
+*.log
