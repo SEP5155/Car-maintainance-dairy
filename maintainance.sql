@@ -6,8 +6,7 @@ CREATE TABLE maintentry (
     mialadge INT NOT NULL,
     text TEXT,
     date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    user_id INTEGER,
-    FOREIGN KEY (user_id) REFERENCES users (user_id)
+    user_id INTEGER
     );
 INSERT INTO maintentry VALUES(3,'4th service','v10',500,250000,'','2024-03-01 12:57:33',NULL);
 INSERT INTO maintentry VALUES(4,'3rd service','some',200,2550000,'','2024-03-01 12:57:58',NULL);
