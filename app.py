@@ -6,6 +6,7 @@ from datetime import timedelta
 from werkzeug.exceptions import abort
 from werkzeug.security import generate_password_hash, check_password_hash
 import logging
+from sqlalchemy import text
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
@@ -149,12 +150,12 @@ def all_entries():
     conn = get_db_connection()
     if g.current_user:
         # posts = conn.execute("SELECT * FROM maintentry").fetchall()
-        posts = conn.execute("SELECT * FROM maintentry WHERE user_id = %s", (g.current_user[0],)).fetchall()
+        posts = conn.execute(text("SELECT * FROM maintentry WHERE user_id = :user_id"), {'user_id': g.current_user[0]}).fetchall()
         conn.close()
         return render_template("all-entries.html", posts=posts)
     else:
         # conn = get_db_connection()
-        posts = conn.execute("SELECT * FROM maintentry WHERE user_id IS NULL").fetchall()
+        posts = conn.execute(text("SELECT * FROM maintentry WHERE user_id IS NULL")).fetchall()
         # posts = conn.execute("SELECT * FROM maintentry WHERE user_id = %s", (g.current_user[0],)).fetchall()
         conn.close()
         return render_template("all-entries.html", posts=posts)
