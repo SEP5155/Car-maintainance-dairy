@@ -1,20 +1,29 @@
 import sqlite3
 from flask import Flask, render_template, url_for, redirect, request, flash, get_flashed_messages
+from flask_sqlalchemy import SQLAlchemy
 from flask import session, g
 from datetime import timedelta
 from werkzeug.exceptions import abort
 from werkzeug.security import generate_password_hash, check_password_hash
 import logging
 
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'your_secret_key'
+app.config["PERMANENT_SESSION_LIFITIME"] = timedelta(minutes=30)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://sep5155:password@192.168.110.10:3306/maintainance'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
 
 def get_db_connection():
-    conn = sqlite3.connect('maintainance.db')
-    conn.row_factory = sqlite3.Row
-    return conn
+    return db.engine.connect()
+    # conn = sqlite3.connect('maintainance.db')
+    # conn.row_factory = sqlite3.Row
+    # return conn
 
 def get_post(post_id):
     conn = get_db_connection()
-    post = conn.execute("SELECT * FROM maintentry WHERE id = ?",
+    post = conn.execute("SELECT * FROM maintentry WHERE id = %s",
                         (post_id,)).fetchone()
     conn.close()
     if post is None:
@@ -23,7 +32,7 @@ def get_post(post_id):
 
 def if_user_has_car(user_id):
     conn = get_db_connection()
-    has_car = conn.execute("SELECT * FROM cars WHERE user_id = ? AND current = ?", (user_id, 1)).fetchone()
+    has_car = conn.execute("SELECT * FROM cars WHERE user_id = %s AND current = %s", (user_id, 1)).fetchone()
     if has_car:
         return True
     else:
@@ -32,13 +41,11 @@ def if_user_has_car(user_id):
 
 def get_user_by_id(email):
     conn = get_db_connection()
-    user = conn.execute("SELECT * FROM users WHERE email = ?", (email,)).fetchone()
+    user = conn.execute("SELECT * FROM users WHERE email = %s", (email,)).fetchone()
     conn.close
     return user
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your_secret_key'
-app.config["PERMANENT_SESSION_LIFITIME"] = timedelta(minutes=30)
+
 
 # logging.basicConfig(filename='/var/www/html/car_app/myapp.log', level=logging.DEBUG)
 
@@ -54,7 +61,7 @@ def before_request():
 def index():
     if g.current_user:
         conn = get_db_connection()
-        car = conn.execute("SELECT * FROM cars WHERE user_id =?", (g.current_user[0],)).fetchone()
+        car = conn.execute("SELECT * FROM cars WHERE user_id =%s", (g.current_user[0],)).fetchone()
         conn.close()
         return render_template("index.html", car=car)
     return render_template("index.html")
@@ -67,7 +74,7 @@ def login():
         email = request.form["email"]
         password = request.form["password"]
         conn = get_db_connection()
-        user_cursor = conn.execute("SELECT * FROM users WHERE email = ?", (email,))
+        user_cursor = conn.execute("SELECT * FROM users WHERE email = %s", (email,))
         user = user_cursor.fetchone()
         if user and check_password_hash(user[2], password):
             session["username"] = request.form["email"]
@@ -103,10 +110,9 @@ def register():
             password_hash = generate_password_hash(password)
             conn = get_db_connection()
             try:
-                conn.execute("INSERT INTO users (email, password_hash) VALUES (?, ?)",
+                conn.execute("INSERT INTO users (email, password_hash) VALUES (%s, %s)",
                 (email, password_hash)
                 )
-                conn.commit()
                 flash("Account created successfully", "info")
                 return redirect(url_for('login'))
             except Exception as e:
@@ -131,10 +137,9 @@ def add_entrie():
             flash('Title is required')
         else:
             conn = get_db_connection()
-            conn.execute("INSERT INTO maintentry (title, place, cost, mialadge, text, user_id) VALUES (?, ?, ?, ?, ?, ?)",
+            conn.execute("INSERT INTO maintentry (title, place, cost, mialadge, text, user_id) VALUES (%s, %s, %s, %s, %s, %s)",
             (title, place, cost, mialadge, text, user_id)
             )
-            conn.commit()
             conn.close()
             return redirect("all-entries")
     return render_template("add-entrie.html")
@@ -144,13 +149,13 @@ def all_entries():
     if g.current_user:
         conn = get_db_connection()
         # posts = conn.execute("SELECT * FROM maintentry").fetchall()
-        posts = conn.execute("SELECT * FROM maintentry WHERE user_id = ?", (g.current_user[0],)).fetchall()
+        posts = conn.execute("SELECT * FROM maintentry WHERE user_id = %s", (g.current_user[0],)).fetchall()
         conn.close()
         return render_template("all-entries.html", posts=posts)
     else:
         conn = get_db_connection()
         posts = conn.execute("SELECT * FROM maintentry WHERE user_id IS NULL").fetchall()
-        # posts = conn.execute("SELECT * FROM maintentry WHERE user_id = ?", (g.current_user[0],)).fetchall()
+        # posts = conn.execute("SELECT * FROM maintentry WHERE user_id = %s", (g.current_user[0],)).fetchall()
         conn.close()
         return render_template("all-entries.html", posts=posts)
 
@@ -172,11 +177,10 @@ def edit_post(post_id):
             flash('Title is required')
         else:
             conn = get_db_connection()
-            conn.execute("UPDATE maintentry SET title = ?, place = ?, cost = ?, mialadge = ?, text = ?"
-                         "WHERE id = ?",
+            conn.execute("UPDATE maintentry SET title = %s, place = %s, cost = %s, mialadge = %s, text = %s"
+                         "WHERE id = %s",
             (title, place, cost, mialadge, text, post_id)
             )
-            conn.commit()
             conn.close()
             return redirect(url_for("all_entries"))
     return render_template("edit.html", post=post)
@@ -184,8 +188,7 @@ def edit_post(post_id):
 def delete_post(post_id):
     post = get_post(post_id)
     conn = get_db_connection()
-    conn.execute("DELETE FROM maintentry WHERE id = ?", (post_id,))
-    conn.commit()
+    conn.execute("DELETE FROM maintentry WHERE id = %s", (post_id,))
     conn.close()
     flash(f'{post["title"]} was successfully deleted')
     return redirect(url_for("all_entries"))
@@ -203,10 +206,9 @@ def add_vehicle():
             current = 1
         user_id = request.form["user_id"]
         conn = get_db_connection()
-        conn.execute("INSERT INTO cars (make, model, year, mialadge, engine, current, user_id) VALUES (?, ?, ?, ?, ?, ?)",
+        conn.execute("INSERT INTO cars (make, model, year, mialadge, engine, current, user_id) VALUES (%s, %s, %s, %s, %s, %s)",
                      (make, model, year, mialadge, engine, current, user_id)
                      )
-        conn.commit()
         conn.close()
         return redirect(url_for("index"))
     return render_template("add-vehicle.html")
