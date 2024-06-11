@@ -6,13 +6,14 @@
 
 {% block body %}
 <h1 class="page_title">Add new entrie</h1>
-<form class="form add-entrie_form" method="post">
+<form class="form" id="add-entrie_form" method="post">
     <input type="text" name="title" id="title" placeholder="Enter title" required><br>
     <input type="text" name="place" id="place" placeholder="Enter place" required><br>
     <input type="number" name="cost" id="cost" placeholder="Enter cost" required><br>
     <input type="number" name="mialadge" id="mialadge" placeholder="Enter mialadge" required><br>
     <textarea name="text" id="text" placeholder="Enter comment"></textarea><br>
-    <input type="number" name="user_id" id="user_id" required hidden value="{{ g.current_user[0] }}"><br>
+    <input type="number" name="user_id" id="user_id" required value="{{ g.current_user[0] }}" style="display: none;"><br>
+    <!-- <input type="number" name="user_id" id="user_id" required hidden value="{{ g.current_user[0] }}"><br> -->
     <input type="submit" value="Send" class="btn">
 </form>
 {% endblock %}
