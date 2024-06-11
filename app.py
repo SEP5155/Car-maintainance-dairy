@@ -10,7 +10,7 @@ import logging
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
 app.config["PERMANENT_SESSION_LIFITIME"] = timedelta(minutes=30)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://sep5155:password@192.168.110.10:3306/maintainance'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://sep5155:password@192.168.110.10:3306/maintainance'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -74,9 +74,9 @@ def login():
         email = request.form["email"]
         password = request.form["password"]
         conn = get_db_connection()
-        user_cursor = conn.execute("SELECT * FROM users WHERE email = %s", (email,))
-        user = user_cursor.fetchone()
-        if user and check_password_hash(user[2], password):
+        user = conn.execute("SELECT * FROM users WHERE email = %s", (email,)).fetchone()
+        conn.close()
+        if user and check_password_hash(user['password_hash'], password):
             session["username"] = request.form["email"]
             flash("login successfull", "info")
             return redirect(url_for("index"))
@@ -146,14 +146,14 @@ def add_entrie():
 
 @app.route("/all-entries")
 def all_entries():
+    conn = get_db_connection()
     if g.current_user:
-        conn = get_db_connection()
         # posts = conn.execute("SELECT * FROM maintentry").fetchall()
         posts = conn.execute("SELECT * FROM maintentry WHERE user_id = %s", (g.current_user[0],)).fetchall()
         conn.close()
         return render_template("all-entries.html", posts=posts)
     else:
-        conn = get_db_connection()
+        # conn = get_db_connection()
         posts = conn.execute("SELECT * FROM maintentry WHERE user_id IS NULL").fetchall()
         # posts = conn.execute("SELECT * FROM maintentry WHERE user_id = %s", (g.current_user[0],)).fetchall()
         conn.close()
