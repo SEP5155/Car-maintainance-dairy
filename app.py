@@ -24,8 +24,7 @@ def get_db_connection():
 
 def get_post(post_id):
     conn = get_db_connection()
-    post = conn.execute("SELECT * FROM maintentry WHERE id = %s",
-                        (post_id,)).fetchone()
+    post = conn.execute(text("SELECT * FROM maintentry WHERE id = :id"), {'id': post_id}).fetchone()
     conn.close()
     if post is None:
         abort(404)
@@ -33,7 +32,9 @@ def get_post(post_id):
 
 def if_user_has_car(user_id):
     conn = get_db_connection()
-    has_car = conn.execute("SELECT * FROM cars WHERE user_id = %s AND current = %s", (user_id, 1)).fetchone()
+    has_car = conn.execute(text("SELECT * FROM cars WHERE user_id = :user_id AND current = :current"), 
+                           {'user_id': user_id, 'current': 1}).fetchone()
+    conn.close()
     if has_car:
         return True
     else:
@@ -42,7 +43,7 @@ def if_user_has_car(user_id):
 
 def get_user_by_id(email):
     conn = get_db_connection()
-    user = conn.execute("SELECT * FROM users WHERE email = %s", (email,)).fetchone()
+    user = conn.execute(text("SELECT * FROM users WHERE email = :email"), {'email': email}).fetchone()
     conn.close
     return user
 
@@ -62,7 +63,7 @@ def before_request():
 def index():
     if g.current_user:
         conn = get_db_connection()
-        car = conn.execute("SELECT * FROM cars WHERE user_id =%s", (g.current_user[0],)).fetchone()
+        car = conn.execute(text("SELECT * FROM cars WHERE user_id = :user_id"),{'user_id': g.current_user[0]}).fetchone()
         conn.close()
         return render_template("index.html", car=car)
     return render_template("index.html")
@@ -75,7 +76,7 @@ def login():
         email = request.form["email"]
         password = request.form["password"]
         conn = get_db_connection()
-        user = conn.execute("SELECT * FROM users WHERE email = %s", (email,)).fetchone()
+        user = conn.execute(text("SELECT * FROM users WHERE email = :email"),{'email': email}).fetchone()
         conn.close()
         if user and check_password_hash(user['password_hash'], password):
             session["username"] = request.form["email"]
@@ -111,9 +112,8 @@ def register():
             password_hash = generate_password_hash(password)
             conn = get_db_connection()
             try:
-                conn.execute("INSERT INTO users (email, password_hash) VALUES (%s, %s)",
-                (email, password_hash)
-                )
+                conn.execute(text("INSERT INTO users (email, password_hash) VALUES (:email, :password_hash)"),
+                {"email": email, "password_hash": password_hash})
                 flash("Account created successfully", "info")
                 return redirect(url_for('login'))
             except Exception as e:
@@ -138,9 +138,8 @@ def add_entrie():
             flash('Title is required')
         else:
             conn = get_db_connection()
-            conn.execute("INSERT INTO maintentry (title, place, cost, mialadge, text, user_id) VALUES (%s, %s, %s, %s, %s, %s)",
-            (title, place, cost, mialadge, text, user_id)
-            )
+            conn.execute(text("INSERT INTO maintentry (title, place, cost, mialadge, text, user_id) VALUES (:title, :place, :cost, :mialadge, :text, :user_id)"),
+            {"title": title, "place": place, "cost": cost, "mialadge": mialadge, "text": text, "user_id": user_id})
             conn.close()
             return redirect("all-entries")
     return render_template("add-entrie.html")
@@ -178,10 +177,9 @@ def edit_post(post_id):
             flash('Title is required')
         else:
             conn = get_db_connection()
-            conn.execute("UPDATE maintentry SET title = %s, place = %s, cost = %s, mialadge = %s, text = %s"
-                         "WHERE id = %s",
-            (title, place, cost, mialadge, text, post_id)
-            )
+            conn.execute(text("UPDATE maintentry SET title = :title, place = :place, cost = :cost, mialadge = :mialadge, text = :text"
+                         "WHERE id = :id"),
+            {"title": title, "place": place, "cost": cost, "mialadge": mialadge, "text": text, "id": post_id})
             conn.close()
             return redirect(url_for("all_entries"))
     return render_template("edit.html", post=post)
@@ -189,7 +187,7 @@ def edit_post(post_id):
 def delete_post(post_id):
     post = get_post(post_id)
     conn = get_db_connection()
-    conn.execute("DELETE FROM maintentry WHERE id = %s", (post_id,))
+    conn.execute(text("DELETE FROM maintentry WHERE id = :id"), {"id": post_id})
     conn.close()
     flash(f'{post["title"]} was successfully deleted')
     return redirect(url_for("all_entries"))
@@ -207,9 +205,8 @@ def add_vehicle():
             current = 1
         user_id = request.form["user_id"]
         conn = get_db_connection()
-        conn.execute("INSERT INTO cars (make, model, year, mialadge, engine, current, user_id) VALUES (%s, %s, %s, %s, %s, %s)",
-                     (make, model, year, mialadge, engine, current, user_id)
-                     )
+        conn.execute(text("INSERT INTO cars (make, model, year, mialadge, engine, current, user_id) VALUES (:make, :model, :year, :mialadge, :engine, :current, :user_id)"),
+                     {"make": make, "model": model, "year": year, "mialadge": mialadge, "engine": engine, "current": current, "user_id": user_id})
         conn.close()
         return redirect(url_for("index"))
     return render_template("add-vehicle.html")
