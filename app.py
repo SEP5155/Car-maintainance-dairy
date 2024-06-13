@@ -110,13 +110,16 @@ def add_entrie():
         cost = request.form["cost"]
         mialadge = request.form["mialadge"]
         content = request.form["text"]
-        user_id = request.form["user_id"]
+        if g.current_user:
+            user_id = g.current_user[0]
+        else:
+            user_id = None
         if not title:
             flash('Title is required')
         else:
             with get_db_connection() as conn:
                 conn.execute(text("INSERT INTO maintentry (title, place, cost, mialadge, text, user_id) VALUES (:title, :place, :cost, :mialadge, :content, :user_id)"), 
-                             {'title': title, 'place': place, 'cost': cost, 'mialadge': mialadge, 'content': content, 'user_id': user_id})
+                             {'title': title, 'place': place, 'cost': cost, 'mialadge': mialadge, 'content': content, 'user_id': user_id })
                 conn.commit()
             return redirect("all-entries")
     return render_template("add-entrie.html")
@@ -174,7 +177,7 @@ def add_vehicle():
         current = 0
         if not if_user_has_car(g.current_user[0]):
             current = True
-        user_id = request.form["user_id"]
+        user_id = g.current_user[0]
         with get_db_connection() as conn:
             conn.execute(text("INSERT INTO cars (make, model, year, mialadge, engine, current, user_id) VALUES (:make, :model, :year, :mialadge, :engine, :current, :user_id)"), 
                          {'make': make, 'model': model, 'year': year, 'mialadge': mialadge, 'engine': engine, 'current': current, 'user_id': user_id})
