@@ -58,7 +58,7 @@ def login():
         password = request.form["password"]
         with get_db_connection() as conn:
             user = conn.execute(text("SELECT * FROM users WHERE email = :email"), {'email': email}).fetchone()
-        if user and check_password_hash(user['password_hash'], password):
+        if user and check_password_hash(user[1], password):
             session["username"] = email
             flash("Login successful", "info")
             return redirect(url_for("index"))
