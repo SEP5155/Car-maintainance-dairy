@@ -140,13 +140,13 @@ def edit_post(post_id):
         place = request.form["place"]
         cost = request.form["cost"]
         mialadge = request.form["mialadge"]
-        text = request.form["text"]
+        content = request.form["text"]
         if not title:
             flash('Title is required')
         else:
             with get_db_connection() as conn:
-                conn.execute(text("UPDATE maintentry SET title = :title, place = :place, cost = :cost, mialadge = :mialadge, text = :text WHERE id = :id"), 
-                             {'title': title, 'place': place, 'cost': cost, 'mialadge': mialadge, 'text': text, 'id': post_id})
+                conn.execute(text("UPDATE maintentry SET title = :title, place = :place, cost = :cost, mialadge = :mialadge, text = :content WHERE id = :id"), 
+                             {'title': title, 'place': place, 'cost': cost, 'mialadge': mialadge, 'content': content, 'id': post_id})
             return redirect(url_for("all_entries"))
     return render_template("edit.html", post=post)
 
