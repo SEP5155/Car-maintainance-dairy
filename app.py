@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect, request, flash, session, g
+from flask import Flask, render_template, url_for, redirect, request, flash, session, g, get_flashed_messages
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 from datetime import timedelta
@@ -58,7 +58,7 @@ def login():
         password = request.form["password"]
         with get_db_connection() as conn:
             user = conn.execute(text("SELECT * FROM users WHERE email = :email"), {'email': email}).fetchone()
-        if user and check_password_hash(user[1], password):
+        if user and check_password_hash(user[2], password):
             session["username"] = email
             flash("Login successful", "info")
             return redirect(url_for("index"))
@@ -107,14 +107,14 @@ def add_entrie():
         place = request.form["place"]
         cost = request.form["cost"]
         mialadge = request.form["mialadge"]
-        text = request.form["text"]
+        content = request.form["text"]
         user_id = request.form["user_id"]
         if not title:
             flash('Title is required')
         else:
             with get_db_connection() as conn:
-                conn.execute(text("INSERT INTO maintentry (title, place, cost, mialadge, text, user_id) VALUES (:title, :place, :cost, :mialadge, :text, :user_id)"), 
-                             {'title': title, 'place': place, 'cost': cost, 'mialadge': mialadge, 'text': text, 'user_id': user_id})
+                conn.execute(text("INSERT INTO maintentry (title, place, cost, mialadge, text, user_id) VALUES (:title, :place, :cost, :mialadge, :content, :user_id)"), 
+                             {'title': title, 'place': place, 'cost': cost, 'mialadge': mialadge, 'content': content, 'user_id': user_id})
             return redirect("all-entries")
     return render_template("add-entrie.html")
 
