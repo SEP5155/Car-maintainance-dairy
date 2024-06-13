@@ -147,17 +147,16 @@ def add_entrie():
 @app.route("/all-entries")
 def all_entries():
     conn = get_db_connection()
-    if g.current_user:
-        # posts = conn.execute("SELECT * FROM maintentry").fetchall()
-        posts = conn.execute(text("SELECT * FROM maintentry WHERE user_id = :user_id"), {'user_id': g.current_user[0]}).fetchall()
-        conn.close()
+    try:
+        if g.current_user:
+            # posts = conn.execute("SELECT * FROM maintentry").fetchall()
+            posts = conn.execute(text("SELECT * FROM maintentry WHERE user_id = :user_id"), {'user_id': g.current_user[0]}).fetchall()
+        else:
+            # conn = get_db_connection()
+            posts = conn.execute(text("SELECT * FROM maintentry WHERE user_id IS NULL")).fetchall()
         return render_template("all-entries.html", posts=posts)
-    else:
-        # conn = get_db_connection()
-        posts = conn.execute(text("SELECT * FROM maintentry WHERE user_id IS NULL")).fetchall()
-        # posts = conn.execute("SELECT * FROM maintentry WHERE user_id = %s", (g.current_user[0],)).fetchall()
+    finally:
         conn.close()
-        return render_template("all-entries.html", posts=posts)
 
 @app.route("/post/<int:post_id>")
 def show_post(post_id):
