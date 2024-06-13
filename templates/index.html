@@ -19,23 +19,25 @@ Car Maintainance Diary
         <div class="car_info">
             <div class="car_info-wrapper">
                 <div class="current_car">
-                    {% if car %}
+                    {% if current_car %}
                     <span class="current_car-name">Current car info:</span>
                     <!-- <p>{{ el }}</p> -->
-                    <li class="current_car-list-item">Make: {{ car.make }}</li>
-                    <li class="current_car-list-item">Model: {{ car.model }}</li>
-                    <li class="current_car-list-item">Year: {{ car.year }}</li>
-                    <li class="current_car-list-item">Engine: {{ car.engine }}</li>
-                    <li class="current_car-list-item">Mialadge: {{ car.mialadge }} km</li>
+                    <li class="current_car-list-item">Make: {{ current_car.make }}</li>
+                    <li class="current_car-list-item">Model: {{ current_car.model }}</li>
+                    <li class="current_car-list-item">Year: {{ current_car.year }}</li>
+                    <li class="current_car-list-item">Engine: {{ current_car.engine }}</li>
+                    <li class="current_car-list-item">Mialadge: {{ current_car.mialadge }} km</li>
                     <li class="current_car-list-item">Next Oil change in: </li>
-                    <a href="/add-vehicle" class="btn add_car_home">Add vehicle</a>
                     <form>
                         <label for="user_cars">Choose current car</label>
                         <select id="user_cars" name="user_cars">
-                            <option value="{{ car.make }} {{ car.model }}">{{ car.make }} {{ car.model }}</option>
+                            {% for s_car in all_cars %}
+                                <option value="{{ s_car.make }} {{ s_car.model }} {{ s_car.year }}">{{ s_car.make }} {{ s_car.model }} {{ s_car.year }}</option>
+                            {% endfor %}
                         </select>
                     </form>
                     {% endif %}
+                    <a href="/add-vehicle" class="btn add_car_home">Add vehicle</a>
                 </div>
                 <div class="current_car-img">
                     <img src="/static/img/land_rover_range_rover_vogue_108581_1280x960.jpg" alt="Your car">
