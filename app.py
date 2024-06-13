@@ -26,7 +26,7 @@ def get_post(post_id):
 def if_user_has_car(user_id):
     with get_db_connection() as conn:
         has_car = conn.execute(text("SELECT * FROM cars WHERE user_id = :user_id AND current = :current"), 
-                               {'user_id': user_id, 'current': 1}).fetchone()
+                               {'user_id': user_id, 'current': True}).fetchone()
         return bool(has_car)
 
 def get_user_by_id(email):
@@ -45,8 +45,9 @@ def before_request():
 def index():
     if g.current_user:
         with get_db_connection() as conn:
-            car = conn.execute(text("SELECT * FROM cars WHERE user_id = :user_id"), {'user_id': g.current_user[0]}).fetchone()
-        return render_template("index.html", car=car)
+            current_car = conn.execute(text("SELECT * FROM cars WHERE user_id = :user_id AND current = 1"), {'user_id': g.current_user[0]}).fetchone()
+            all_cars = conn.execute(text("SELECT * FROM cars WHERE user_id = :user_id AND current = 0"), {'user_id': g.current_user[0]}).fetchall()
+        return render_template("index.html", current_car=current_car, all_cars=all_cars)
     return render_template("index.html")
 
 @app.route("/login", methods=["POST", "GET"])
@@ -93,6 +94,7 @@ def register():
                 try:
                     conn.execute(text("INSERT INTO users (email, password_hash) VALUES (:email, :password_hash)"), 
                                  {'email': email, 'password_hash': password_hash})
+                    conn.commit()
                     flash("Account created successfully", "info")
                     return redirect(url_for('login'))
                 except Exception as e:
@@ -115,6 +117,7 @@ def add_entrie():
             with get_db_connection() as conn:
                 conn.execute(text("INSERT INTO maintentry (title, place, cost, mialadge, text, user_id) VALUES (:title, :place, :cost, :mialadge, :content, :user_id)"), 
                              {'title': title, 'place': place, 'cost': cost, 'mialadge': mialadge, 'content': content, 'user_id': user_id})
+                conn.commit()
             return redirect("all-entries")
     return render_template("add-entrie.html")
 
@@ -147,6 +150,7 @@ def edit_post(post_id):
             with get_db_connection() as conn:
                 conn.execute(text("UPDATE maintentry SET title = :title, place = :place, cost = :cost, mialadge = :mialadge, text = :content WHERE id = :id"), 
                              {'title': title, 'place': place, 'cost': cost, 'mialadge': mialadge, 'content': content, 'id': post_id})
+                conn.commit()
             return redirect(url_for("all_entries"))
     return render_template("edit.html", post=post)
 
@@ -155,7 +159,8 @@ def delete_post(post_id):
     post = get_post(post_id)
     with get_db_connection() as conn:
         conn.execute(text("DELETE FROM maintentry WHERE id = :id"), {'id': post_id})
-    flash(f'{post["title"]} was successfully deleted')
+        conn.commit()
+    flash(f'{post[1]} was successfully deleted')
     return redirect(url_for("all_entries"))
 
 @app.route("/add-vehicle", methods=["POST", "GET"])
@@ -167,12 +172,13 @@ def add_vehicle():
         mialadge = request.form["mialadge"]
         engine = request.form["engine"]
         current = 0
-        if if_user_has_car(g.current_user[0]):
-            current = 1
+        if not if_user_has_car(g.current_user[0]):
+            current = True
         user_id = request.form["user_id"]
         with get_db_connection() as conn:
             conn.execute(text("INSERT INTO cars (make, model, year, mialadge, engine, current, user_id) VALUES (:make, :model, :year, :mialadge, :engine, :current, :user_id)"), 
                          {'make': make, 'model': model, 'year': year, 'mialadge': mialadge, 'engine': engine, 'current': current, 'user_id': user_id})
+            conn.commit()
         return redirect(url_for("index"))
     return render_template("add-vehicle.html")
 
