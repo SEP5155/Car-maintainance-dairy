@@ -16,6 +16,7 @@ MarkupSafe==2.1.5
 mysqlclient==2.2.4
 platformdirs==4.2.0
 pygame==2.5.2
+PyMySQL==1.1.1
 pyowm==3.3.0
 PySocks==1.7.1
 requests==2.31.0
