@@ -16,6 +16,14 @@
     background: hsl(192.08deg 23.26% 72.81%);
     border: thin solid black;
 }
+.current_car form {
+    margin-top: 15px;
+    text-align: left;
+}
+.current_car form select {
+    margin-top: 7px; 
+    border-radius: 25px;
+}
 .current_car-img {
     width: 70%
 }
@@ -41,17 +49,20 @@
 .random_cars_slider {
     margin: 20px 0;
     position: relative;
+    background-color: #000000bd;
 }
 .random_car-img {
     display: none;
+    justify-content: center;
 }
 .random_car-img img {
     width: 100%;
+    max-width: 900px;
     height: 400px;
     object-fit: cover;
 }
 .random_car-img.active {
-    display: block;
+    display: flex;
 }
 .not_logged_in_title_home {
     text-align: center;

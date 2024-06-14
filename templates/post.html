@@ -7,14 +7,30 @@ Entry info
 {% block body %} 
     <div class="post">
         <h3>{{ post["title"] }}</h3>
-        <span>{{ post["place"]  }}</span><br>
-        <span>{{ post["cost"] }}</span><br>
-        <span>{{ post["mialadge"]}}</span><br>
-        <span>{{ post["text"] }}</span><br>
-        <span>{{ post["date"] }}</span><br>
-        <div class="bottom_btns">
-            <a href="/post/{{ post['id'] }}/edit" class="btn">Edit</a>
-            <a href="/post/{{ post['id'] }}/delete" class="btn">Delete</a>
+        <div class="post_container">
+            <div class="post_line-block">
+                <span class="post_left-block">Place: </span>
+                <span class="post_right-block">{{ post["place"]  }}</span><br>
+            </div>
+            <div class="post_line-block">
+                <span class="post_left-block">Cost: </span>
+                <span class="post_right-block">{{ post["cost"] }}</span><br>
+            </div>
+            <div class="post_line-block">
+                <span class="post_left-block">Mialadge: </span>
+                <span class="post_right-block">{{ post["mialadge"]}}</span><br>
+            </div>
+            <div class="post_line-block">
+                <span class="post_left-block">MSG: </span>
+                <span class="post_right-block">{{ post["text"] }}</span><br>
+            </div>
+        </div>
+        <div class="post_date">
+            <span>{{ post["date"] }}</span><br>
+        </div>
+        <div class="post_bottom">
+            <a href="/post/{{ post['id'] }}/edit" class="btn post_btn">Edit</a>
+            <a href="/post/{{ post['id'] }}/delete" class="btn post_btn">Delete</a>
         </div>
         
     </div>
