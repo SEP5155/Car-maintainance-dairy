@@ -67,8 +67,6 @@ document.addEventListener('DOMContentLoaded', function() {
         prevBtn.addEventListener('click', showPrev);
     }
     
-
-    
     
     customAlert();
 
@@ -88,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log(formDatas);
         }
     }
-    if (formWeb) {
+    if (formWeb.length > 0) {
         formWeb.forEach(function(input) {
             input.addEventListener('input', storeFormData2);
         });
@@ -104,13 +102,15 @@ document.addEventListener('DOMContentLoaded', function() {
             })
         }
     }
-    loadFormData2()
+    if (formWeb.length > 0) {
+        loadFormData2()
+    }
 
     function clearFormData2() {
         localStorage.removeItem(formName.id);
     }
 
-    if(formWeb) {
+    if(formWeb.length > 0) {
         formName.addEventListener('submit', function(event) {
             clearFormData2();
             alert('form submitted and Local Storage is cleared');
