@@ -1,4 +1,0 @@
-document.addEventListener('partialsLoaded', function() {
-    import('./funcs.js');
-    import('./formsFuncs.js');
-})
