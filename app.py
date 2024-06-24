@@ -46,7 +46,7 @@ def index():
     if g.current_user:
         with get_db_connection() as conn:
             current_car = conn.execute(text("SELECT * FROM cars WHERE user_id = :user_id AND current = 1"), {'user_id': g.current_user[0]}).fetchone()
-            all_cars = conn.execute(text("SELECT * FROM cars WHERE user_id = :user_id AND current = 0"), {'user_id': g.current_user[0]}).fetchall()
+            all_cars = conn.execute(text("SELECT * FROM cars WHERE user_id = :user_id"), {'user_id': g.current_user[0]}).fetchall()
         return render_template("index.html", current_car=current_car, all_cars=all_cars)
     return render_template("index.html")
 
@@ -184,6 +184,22 @@ def add_vehicle():
             conn.commit()
         return redirect(url_for("index"))
     return render_template("add-vehicle.html")
+@app.route('/set_current_car', methods=["POST", "GET"])
+def set_current_car():
+    if g.current_user:
+        user_id = g.current_user[0]
+        new_current_car_id = request.form["user_cars"]
+        
+        with get_db_connection() as conn:
+            conn.execute(text("UPDATE cars SET current = 0 WHERE user_id= :user_id"),
+                         {"user_id": user_id})
+            conn.execute(text("UPDATE cars SET current = 1 WHERE car_id = :car_id and user_id = :user_id"),
+                         {"car_id": new_current_car_id, "user_id": user_id})
+            conn.commit()
+        
+        flash("Current car updated")
+    return redirect(url_for("index"))
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)

@@ -28,15 +28,15 @@ Car Maintainance Diary
                     <li class="current_car-list-item">Engine: {{ current_car.engine }}</li>
                     <li class="current_car-list-item">Mialadge: {{ current_car.mialadge }} km</li>
                     <li class="current_car-list-item">Next Oil change in: </li>
-                    <form>
+                    {% endif %}
+                    <form action="{{ url_for('set_current_car') }}" class="form" id="change_vehicle_form" method="post">
                         <label for="user_cars">Choose current car</label>
-                        <select id="user_cars" name="user_cars">
+                        <select id="user_cars" name="user_cars" onchange="this.form.submit()">
                             {% for s_car in all_cars %}
-                                <option value="{{ s_car.make }} {{ s_car.model }} {{ s_car.year }}">{{ s_car.make }} {{ s_car.model }} {{ s_car.year }}</option>
+                                <option value="{{ s_car.car_id }}" {% if s_car.current %}selected{% endif %}>{{ s_car.make }} {{ s_car.model }} {{ s_car.year }}</option>
                             {% endfor %}
                         </select>
                     </form>
-                    {% endif %}
                     <a href="/add-vehicle" class="btn add_car_home">Add vehicle</a>
                 </div>
                 <div class="current_car-img">
