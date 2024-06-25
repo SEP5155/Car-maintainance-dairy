@@ -131,8 +131,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (criteria === "date") {
                     return new Date(valueA) - new Date(valueB);
     
-                } else {
+                } else if (criteria === "cost") {
                     return parseFloat(valueA) - parseFloat(valueB);
+                } else {
+                    return valueA.localeCompare(valueB)
                 }
             });
     
