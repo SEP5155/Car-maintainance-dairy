@@ -6,7 +6,7 @@
 
 {% block body %}
 <h1>Edit entrie</h1>
-<form method="post">
+<form method="post" class="form" id="edit_entry">
     <input type="text" name="title" id="title" required value="{{ post['title'] }}"><br>
     <input type="text" name="place" id="place" required value="{{ post['place'] }}"><br>
     <input type="number" name="cost" id="cost" required value="{{ post['cost'] }}"><br>
