@@ -4,6 +4,18 @@
     All entries
 {% endblock %}
 {% block body %}
+<div id="sort_container">
+    <h5>Sort entries:</h5>
+    <select id="sort_entries">
+        <option selected></option>
+        <option class="sort_entries_option" value="place">Place</option>
+        <option class="sort_entries_option" value="cost">Cost</option>
+        <option class="sort_entries_option" value="date">Date</option>
+    </select>
+</div>
+
+
+</select>
     <div class="all-entries_container">
         <h1 class="page_title">All entries</h1>
         <div class="posts">
@@ -14,11 +26,11 @@
                             <h3 class="post_title">{{ el["title"] }}</h3>
                         </div>
                         <div class="post_left_table">
-                            <span class="post_line"></span>Place: {{ el["place"]  }}</span>
-                            <span class="post_line"></span>Cost: {{ el["cost"] }}</span>
+                            <span>Place: <span class="post_line place">{{ el["place"] }}</span></span>
+                            <span>Cost: <span class="post_line cost">{{ el["cost"] }}</span></span>
                             <span class="post_line"></span>Mileage: {{ el["mialadge"]}}</span>
                             <span class="post_line"></span>Comment: {{ el["text"] }}</span>
-                            <span class="post_line"></span>Date: {{ el["date"] }}</span>
+                            <span>Date: <span class="post_line date">{{ el["date"] }}</span></span>
                             {% if g.current_user %}
                                 <span>Owner: {{ g.current_user["email"]}}</span>
                             {% else %}

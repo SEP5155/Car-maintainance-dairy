@@ -33,14 +33,15 @@ Car Maintainance Diary
                         <label for="user_cars">Choose current car</label>
                         <select id="user_cars" name="user_cars" onchange="this.form.submit()">
                             {% for s_car in all_cars %}
-                                <option value="{{ s_car.car_id }}" {% if s_car.current %}selected{% endif %}>{{ s_car.make }} {{ s_car.model }} {{ s_car.year }}</option>
+                                <option id="{{ s_car.body_marking }}" value="{{ s_car.car_id }}" {% if s_car.current %}selected{% endif %}>{{ s_car.make }} {{ s_car.model }} {{ s_car.year }}</option>
                             {% endfor %}
                         </select>
                     </form>
                     <a href="/add-vehicle" class="btn add_car_home">Add vehicle</a>
                 </div>
                 <div class="current_car-img">
-                    <img src="/static/img/land_rover_range_rover_vogue_108581_1280x960.jpg" alt="Your car">
+                    <img id="current_car_img" src="/static/img/default_brand/{{ current_car.body_marking }}.jpg" alt="Your car">
+                    <p id="loadingMsg" style="display: none;">Loading image...</p>
                 </div>
             </div>
         </div>
